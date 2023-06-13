@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <script>
+    function performSearch() {
+      // Get the search query from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchText = urlParams.get("text");
+
+      // Make AJAX request to the Java backend
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "/search/" + encodeURIComponent(searchText), true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          // Process the response from the backend
+          const response = JSON.parse(xhr.responseText);
+          displayResults(response);
+        }
+      };
+      xhr.send();
+    }
+
+    function displayResults(results) {
+      // Update the HTML with the search results
+      const resultsContainer = document.getElementById("searchResults");
+
+      // Clear previous search results
+      resultsContainer.innerHTML = "";
+
+      // Add search results to the container
+      results.forEach(function(result) {
+        const searchResult = document.createElement("p");
+        searchResult.textContent = result;
+        resultsContainer.appendChild(searchResult);
+      });
+    }
+  </script>
+</head>
+<body onload="performSearch()">
+<h1>Search Results</h1>
+
+<div id="searchResults">
+    <!-- Search results will be added here dynamically -->
+</div>
+</body>
+</html>
