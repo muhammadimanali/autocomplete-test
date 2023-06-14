@@ -1,13 +1,13 @@
-import Head from 'next/head'
-import React, {useState} from 'react'
-import { TextField } from '@mui/material'
-import Autocomplete from '@mui/material'
-import axios from 'axios'
+import Head from "next/head";
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import axios from "axios";
 
 const getBook = async(str) => {
   try {
     let searchableBook = str.replace(/,/g, "");
-    let url = "http://localhost:8080/showBook" + searchableBook;
+    let url = "http://localhost:8080/showBook/" + searchableBook;
 
     let {data} = await axios.get(url);
     return data;
@@ -19,7 +19,8 @@ const getBook = async(str) => {
 
 export default function Home() {
 
-  const [searchBook, setSearchOne] = useState([]);
+  const [searchOne, setSearchOne] = useState([]);
+  const [value, setValue] = useState("");
 
   const onChangeOne = async (e) => {
     if(e.target.value) {
@@ -38,7 +39,7 @@ export default function Home() {
       </Head>
 
       <div style={{ marginTop: 50}}>
-      {/* <Autocomplete
+      <Autocomplete
           freeSolo
           filterOptions={(x) => x}
           onChange={(e) => setValue(e.target.innerText)}
@@ -50,7 +51,7 @@ export default function Home() {
               onChange={(e) => onChangeOne(e)}
             />
           )}
-        /> */}
+        />
       </div>
     </>
   )
