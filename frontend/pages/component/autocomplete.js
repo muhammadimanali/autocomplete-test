@@ -1,8 +1,34 @@
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import React, { useState } from "react";
+import axios from 'axios';
 
+const getBook = async(str) => {
+    try {
+      let searchableBook = str.replace(/,/g, "");
+      let url = "http://localhost:8080/showBook/" + searchableBook;
+  
+      let {data} = await axios.get(url);
+      return data;
+  
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-<div style={{ marginTop: 50}}>
+export default function FreeSolo() {
+
+    const [searchOne, setSearchOne] = useState([]);
+    const [value, setValue] = useState("");
+
+    const onChangeOne = async (e) => {
+        if(e.target.value) {
+            let data = await getBook(e.target.value)
+            setSearchOne(data)
+        }   
+    };
+
+  return (
       <Autocomplete
           freeSolo
           filterOptions={(x) => x}
@@ -16,4 +42,5 @@ import Autocomplete from "@mui/material/Autocomplete";
             />
           )}
         />
-      </div>
+  );
+}

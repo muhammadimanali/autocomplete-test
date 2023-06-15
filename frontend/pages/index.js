@@ -3,31 +3,32 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
+import FreeSolo from "./component/autocomplete";
 
-const getBook = async(str) => {
-  try {
-    let searchableBook = str.replace(/,/g, "");
-    let url = "http://localhost:8080/showBook/" + searchableBook;
+// const getBook = async(str) => {
+//   try {
+//     let searchableBook = str.replace(/,/g, "");
+//     let url = "http://localhost:8080/showBook/" + searchableBook;
 
-    let {data} = await axios.get(url);
-    return data;
+//     let {data} = await axios.get(url);
+//     return data;
 
-  } catch (error) {
-    console.error(error);
-  }
-};
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 export default function Home() {
 
-  const [searchOne, setSearchOne] = useState([]);
-  const [value, setValue] = useState("");
+  // const [searchOne, setSearchOne] = useState([]);
+  // const [value, setValue] = useState("");
 
-  const onChangeOne = async (e) => {
-    if(e.target.value) {
-      let data = await getBook(e.target.value)
-      setSearchOne(data)
-    }
-  };
+  // const onChangeOne = async (e) => {
+  //   if(e.target.value) {
+  //     let data = await getBook(e.target.value)
+  //     setSearchOne(data)
+  //   }
+  // };
 
   return (
     <>
@@ -39,7 +40,7 @@ export default function Home() {
       </Head>
 
       <div style={{ marginTop: 50}}>
-      <Autocomplete
+      {/* <Autocomplete
           freeSolo
           filterOptions={(x) => x}
           onChange={(e) => setValue(e.target.innerText)}
@@ -51,7 +52,10 @@ export default function Home() {
               onChange={(e) => onChangeOne(e)}
             />
           )}
-        />
+        /> */}
+
+        <FreeSolo/>
+
       </div>
     </>
   )
