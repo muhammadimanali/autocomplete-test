@@ -25,20 +25,22 @@ public class SearchRepositoryImpl implements SearchRepository{
     @Override
     public List<Book> findByText(String text) {
         final List<Book> book1 = new ArrayList<>();
-        MongoDatabase database = client.getDatabase("BookStore");
-        MongoCollection<Document> collection = database.getCollection("Book");
+        MongoDatabase database = client.getDatabase("sample");
+        MongoCollection<Document> collection = database.getCollection("book");
         AggregateIterable<Document> result = collection.aggregate(
-                                Arrays.asList(new Document("$search",
-                                new Document("index", "default")
-                                .append("autocomplete",
-                                new Document("query", text)
-                                .append("path", "title")
-                                .append("tokenOrder", "any")
-                                .append("fuzzy", new Document("maxEdits", 1L)))),
-                                new Document("$sort",
-                                new Document("exp", 1L)),
-                                new Document("$limit", 3L)));
+                Arrays.asList(new Document("$search",
+                new Document("index", "default")
+                .append("autocomplete",
+                new Document("query", text)
+                .append("path", "title")
+                .append("tokenOrder", "sequential")
+                .append("fuzzy", new Document("maxEdits", 1L)))),
+                new Document("$sort",
+                new Document("year", 1L)),
+                new Document("$limit", 3L)));
+
         result.forEach(doc -> book1.add(converter.read(Book.class,doc)));
+
         return book1;
     }
 }

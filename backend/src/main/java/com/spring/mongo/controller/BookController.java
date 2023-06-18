@@ -26,8 +26,13 @@ public class BookController {
 
     // showing allBooks on /index
     @CrossOrigin
-    @GetMapping("/showBooks")
+    @GetMapping("/allBooks")
     public List<Book> showBooks() {
+        return repository.findAll();
+    }
+
+    @GetMapping("index")
+    public List<Book> allBooks() {
         return repository.findAll();
     }
 
@@ -39,10 +44,5 @@ public class BookController {
         return searchRepository.findByText(text);
     }
 
-    @DeleteMapping("/delete/id")
-        public String deleteBook(@PathVariable int id) {
-        repository.deleteById(String.valueOf(id));
-        return "book deleted with id : " + id;
-    }
 
 }
